@@ -3,6 +3,6 @@
   "domain": "github.com",
   "target_list": [
     { "key": "root", "url": "/"    , "desktop": true,  "mobile": true},
-    { "url": "/team", "desktop": true, "mobile": false}
+    { "url": "team", "desktop": true, "mobile": false}
   ]
 }
