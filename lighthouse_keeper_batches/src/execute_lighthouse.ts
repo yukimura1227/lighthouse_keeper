@@ -24,7 +24,7 @@ const detectOutputFormat = async (argv : string[]) => {
 
 (async () => {
   const outputFormat = await detectOutputFormat(process.argv);
-  let chrome = await launchChrome();
+  const chrome = await launchChrome();
   const options = {
     logLevel: 'info',
     output: outputFormat,
