@@ -4,18 +4,15 @@ import lighthouse from 'lighthouse';
 import * as chromeLauncher from 'chrome-launcher';
 import * as lighthouse_target_list from '../lighthouse_target_list.json';
 
-(async () => {
-  let outputFormat : 'html' | 'json' | 'csv' = 'html';
-  if( process.argv.length >= 3) {
-    if(process.argv[2] == 'json') {
-      outputFormat = 'json';
-    } else if(process.argv[2] == 'csv') {
-      outputFormat = 'csv';
-    }
-  }
-  const chrome = await chromeLauncher.launch({
+const launchChrome = async () => {
+  return await chromeLauncher.launch({
     chromeFlags: ['--headless']
   });
+};
+
+(async () => {
+  let outputFormat : 'html' | 'json' | 'csv' = 'html';
+  let chrome = await launchChrome();
   const options = {
     logLevel: 'info',
     output: outputFormat,
