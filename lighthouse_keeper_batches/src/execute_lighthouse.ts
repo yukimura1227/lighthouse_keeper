@@ -3,6 +3,7 @@ import fs from 'fs';
 import lighthouse from 'lighthouse';
 import * as chromeLauncher from 'chrome-launcher';
 import * as lighthouse_target_list from '../lighthouse_target_list.json';
+import { protocol, domain } from '../lighthouse_target_list.json';
 
 const launchChrome = async () => {
   return await chromeLauncher.launch({
@@ -31,9 +32,6 @@ const detectOutputFormat = async (argv : string[]) => {
     onlyCategories: ['performance'],
     port: chrome.port
   };
-
-  const protocol = lighthouse_target_list.protocol;
-  const domain   = lighthouse_target_list.domain;
 
   for (let i = 0; i < lighthouse_target_list.target_list.length; i++) {
     let target = lighthouse_target_list.target_list[i];
