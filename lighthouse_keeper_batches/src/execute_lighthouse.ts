@@ -5,12 +5,20 @@ import * as chromeLauncher from 'chrome-launcher';
 import * as lighthouse_target_list from '../lighthouse_target_list.json';
 
 (async () => {
+  let outputFormat : 'html' | 'json' | 'csv' = 'html';
+  if( process.argv.length >= 3) {
+    if(process.argv[2] == 'json') {
+      outputFormat = 'json';
+    } else if(process.argv[2] == 'csv') {
+      outputFormat = 'csv';
+    }
+  }
   const chrome = await chromeLauncher.launch({
     chromeFlags: ['--headless']
   });
   const options = {
     logLevel: 'info',
-    output: 'html',
+    output: outputFormat,
     onlyCategories: ['performance'],
     port: chrome.port
   };
@@ -26,15 +34,14 @@ import * as lighthouse_target_list from '../lighthouse_target_list.json';
 
     const runnerResult = await lighthouse(url, options);
 
-    // `.report` is the HTML report as a string
-    const reportHtml = runnerResult.report;
     let outFileName:String;
     if( target.key ) {
       outFileName = target.key;
     } else {
       outFileName = url.replace(/[:,\/\.]/g, '_');
     }
-    fs.writeFileSync(`output/${outFileName}.html`, reportHtml);
+
+    fs.writeFileSync(`output/${outFileName}.${outputFormat}`, runnerResult.report);
 
     // `.lhr` is the Lighthouse Result as a JS object
     console.log('Report is done for', runnerResult.lhr.finalUrl);
