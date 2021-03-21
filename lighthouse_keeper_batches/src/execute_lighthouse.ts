@@ -4,6 +4,7 @@ import lighthouse from 'lighthouse';
 import * as chromeLauncher from 'chrome-launcher';
 import * as lighthouse_target_list from '../lighthouse_target_list.json';
 import { protocol, domain } from '../lighthouse_target_list.json';
+import { TargetListEntity } from 'lighthouse_target_list.json';
 
 const launchChrome = async () => {
   return await chromeLauncher.launch({
@@ -23,6 +24,20 @@ const detectOutputFormat = async (argv : string[]) => {
   return outputFormat;
 }
 
+const buildFullUrl = async (targetInfo: TargetListEntity) => {
+  return `${protocol}://${domain}/${targetInfo.url}`
+}
+
+const generateOutputFileName = async (targetInfo: TargetListEntity) => {
+  let outFileName:String;
+  if( targetInfo.key ) {
+    outFileName = targetInfo.key;
+  } else {
+    outFileName = (await buildFullUrl(targetInfo)).replace(/[:,\/\.]/g, '_');
+  }
+  return outFileName;
+}
+
 (async () => {
   const outputFormat = await detectOutputFormat(process.argv);
   const chrome = await launchChrome();
@@ -33,20 +48,12 @@ const detectOutputFormat = async (argv : string[]) => {
     port: chrome.port
   };
 
-  for (let i = 0; i < lighthouse_target_list.target_list.length; i++) {
-    let target = lighthouse_target_list.target_list[i];
+  for (let target of lighthouse_target_list.target_list) {
     console.log(target);
 
-    const url = `${protocol}://${domain}/${target.url}`;
-
+    const url = await buildFullUrl(target);
     const runnerResult = await lighthouse(url, options);
-
-    let outFileName:String;
-    if( target.key ) {
-      outFileName = target.key;
-    } else {
-      outFileName = url.replace(/[:,\/\.]/g, '_');
-    }
+    const outFileName = await generateOutputFileName(target);
 
     fs.writeFileSync(`output/${outFileName}.${outputFormat}`, runnerResult.report);
 
