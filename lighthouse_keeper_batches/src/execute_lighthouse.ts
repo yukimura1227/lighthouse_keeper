@@ -2,17 +2,7 @@ import fs from 'fs';
 //@ts-ignore
 import lighthouse from 'lighthouse';
 import * as chromeLauncher from 'chrome-launcher';
-// import lighthouse_target_list from './lighthouse_target_list.json';
-
-const lighthouse_target_list = 
-{
-  "protocol": "https",
-  "domain": "github.com",
-  "target_list": [
-    { "key": 'root', "url": "/" },
-    { "url": "/team"},
-  ]
-};
+import * as lighthouse_target_list from '../lighthouse_target_list.json';
 
 (async () => {
   const chrome = await chromeLauncher.launch({
