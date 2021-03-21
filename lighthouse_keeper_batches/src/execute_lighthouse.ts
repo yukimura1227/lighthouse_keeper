@@ -1,6 +1,7 @@
-const fs = require('fs');
-const lighthouse = require('lighthouse');
-const chromeLauncher = require('chrome-launcher');
+import fs from 'fs';
+//@ts-ignore
+import lighthouse from 'lighthouse';
+import * as chromeLauncher from 'chrome-launcher';
 // import lighthouse_target_list from './lighthouse_target_list.json';
 
 const lighthouse_target_list = 
