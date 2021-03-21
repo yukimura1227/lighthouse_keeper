@@ -10,8 +10,20 @@ const launchChrome = async () => {
   });
 };
 
-(async () => {
+const detectOutputFormat = async (argv : string[]) => {
   let outputFormat : 'html' | 'json' | 'csv' = 'html';
+  if( argv.length >= 3) {
+    if(argv[2] == 'json') {
+      outputFormat = 'json';
+    } else if(argv[2] == 'csv') {
+      outputFormat = 'csv';
+    }
+  }
+  return outputFormat;
+}
+
+(async () => {
+  const outputFormat = await detectOutputFormat(process.argv);
   let chrome = await launchChrome();
   const options = {
     logLevel: 'info',
