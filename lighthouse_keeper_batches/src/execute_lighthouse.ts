@@ -2,8 +2,8 @@ import fs from 'fs';
 //@ts-ignore
 import lighthouse from 'lighthouse';
 import * as chromeLauncher from 'chrome-launcher';
-import * as lighthouse_target_list from '../lighthouse_target_list.json';
 import { protocol, domain } from '../lighthouse_target_list.json';
+import { target_list } from '../lighthouse_target_list.json';
 import { TargetListEntity } from 'lighthouse_target_list.json';
 
 const launchChrome = async () => {
@@ -48,7 +48,7 @@ const generateOutputFileName = async (targetInfo: TargetListEntity) => {
     port: chrome.port
   };
 
-  for (let target of lighthouse_target_list.target_list) {
+  for (let target of target_list) {
     console.log(target);
 
     const url = await buildFullUrl(target);
