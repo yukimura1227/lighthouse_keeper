@@ -5,6 +5,23 @@ services:
     image: amazon/dynamodb-local
     ports:
       - "8000:8000"
-    command: -jar DynamoDBLocal.jar -dbPath /data 
+    command: -jar DynamoDBLocal.jar -dbPath /data
     volumes:
       - $PWD/data:/data
+    networks:
+      - dynamodb-local-network
+
+  dynamodb-admin:
+    image: aaronshaf/dynamodb-admin:latest
+    environment:
+      - DYNAMO_ENDPOINT=dynamodb:8000
+    ports:
+      - "8001:8001"
+    depends_on:
+      - dynamodb
+    networks:
+      - dynamodb-local-network
+
+networks:
+  dynamodb-local-network:
+    driver: bridge
