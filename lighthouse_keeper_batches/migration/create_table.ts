@@ -23,7 +23,7 @@ async function setupTables() {
         ProvisionedThroughput: {
           ReadCapacityUnits: 5,
           WriteCapacityUnits: 5
-         },
+        },
     };
 
     try {
