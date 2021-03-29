@@ -1,9 +1,16 @@
+import AWS from "aws-sdk";
 import { DynamoDB } from "aws-sdk";
 
 async function setupTables() {
+    AWS.config.update({
+      credentials:  new AWS.Credentials(
+        "local",
+        "dummy"
+      ),
+      region: 'ap-northeast-1',
+    })
     const dynamo = new DynamoDB({
-        endpoint: 'http://localhost:8000',
-        region: "ap-northeast-1",
+      endpoint: 'http://localhost:8000',
     });
 
     const createTableInput = {
