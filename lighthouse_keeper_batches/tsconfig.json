@@ -71,6 +71,7 @@
   },
   "include": [
     "./src/**/*.ts",
+    "./migration/**/*.ts",
      "./node_modules/lighthouse/types/**/*.d.ts",
   ]
 }
