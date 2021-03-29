@@ -13,12 +13,20 @@ async function setupTables() {
             AttributeName: "Id",
             AttributeType: "S",
           },
+          {
+            AttributeName: "DataGroupKey",
+            AttributeType: "S",
+          },
         ],
         KeySchema: [
           {
             AttributeName: "Id",
             KeyType: "HASH",
-          }
+          },
+          {
+            AttributeName: "DataGroupKey",
+            KeyType: "RANGE",
+          },
         ],
         ProvisionedThroughput: {
           ReadCapacityUnits: 5,
