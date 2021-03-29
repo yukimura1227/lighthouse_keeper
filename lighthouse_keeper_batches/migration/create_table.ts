@@ -1,7 +1,7 @@
-import AWS from "aws-sdk";
+import { DynamoDB } from "aws-sdk";
 
 async function setupTables() {
-    const dynamo = new AWS.DynamoDB({
+    const dynamo = new DynamoDB({
         endpoint: 'http://localhost:8000',
         region: "ap-northeast-1",
     });
