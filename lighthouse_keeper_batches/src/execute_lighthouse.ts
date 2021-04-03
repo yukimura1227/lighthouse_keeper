@@ -5,7 +5,7 @@ import * as chromeLauncher from 'chrome-launcher';
 import { protocol, domain } from '../lighthouse_target_list.json';
 import { target_list } from '../lighthouse_target_list.json';
 import { TargetListEntity } from 'lighthouse_target_list.json';
-
+import { v4 as uuidv4 } from 'uuid';
 import AWS from "aws-sdk";
 import { DynamoDB } from "aws-sdk";
 
@@ -79,7 +79,7 @@ const generateOutputFileName = async (targetInfo: TargetListEntity) => {
     let recordData = {
       TableName: 'Test',
       Item: {
-        "Id": id, // TODO: 自動的に採番する
+        "UUID": uuidv4(),
         "DataGroupKey": outFileName,
         "Date":  new Date().toISOString(),
         "performanceScore": runnerResult.lhr.categories.performance.score * 100,

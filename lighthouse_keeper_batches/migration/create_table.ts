@@ -17,7 +17,7 @@ async function setupTables() {
         TableName: "Test",
         AttributeDefinitions: [
           {
-            AttributeName: "Id",
+            AttributeName: "UUID",
             AttributeType: "S",
           },
           {
@@ -27,7 +27,7 @@ async function setupTables() {
         ],
         KeySchema: [
           {
-            AttributeName: "Id",
+            AttributeName: "UUID",
             KeyType: "HASH",
           },
           {
