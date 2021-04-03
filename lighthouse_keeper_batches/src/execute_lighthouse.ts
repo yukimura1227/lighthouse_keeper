@@ -81,7 +81,8 @@ const generateOutputFileName = async (targetInfo: TargetListEntity) => {
       Item: {
         "Id": id, // TODO: 自動的に採番する
         "DataGroupKey": outFileName,
-        "performanceScore": runnerResult.lhr.categories.performance.score * 100
+        "Date":  new Date().toISOString(),
+        "performanceScore": runnerResult.lhr.categories.performance.score * 100,
       }
     }
 
