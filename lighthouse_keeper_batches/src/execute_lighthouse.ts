@@ -75,10 +75,11 @@ const generateOutputFileName = async (targetInfo: TargetListEntity) => {
     console.log('Report is done for', runnerResult.lhr.finalUrl);
     console.log('Performance score was', runnerResult.lhr.categories.performance.score * 100);
 
+    let id =  String(Math.floor(Math.random() * Math.floor(100000000)));
     let recordData = {
       TableName: 'Test',
       Item: {
-        "Id": 1, // TODO: 自動的に採番する
+        "Id": id, // TODO: 自動的に採番する
         "DataGroupKey": outFileName,
         "performanceScore": runnerResult.lhr.categories.performance.score * 100
       }
