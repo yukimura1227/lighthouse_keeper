@@ -83,6 +83,9 @@ const generateOutputFileName = async (targetInfo: TargetListEntity) => {
         "DataGroupKey": outFileName,
         "Date":  new Date().toISOString(),
         "performanceScore": runnerResult.lhr.categories.performance.score * 100,
+        "lighthouseVersion": runnerResult.lhr.lighthouseVersion,
+        "requestedUrl": runnerResult.lhr.requestedUrl,
+        "finalUrl": runnerResult.lhr.finalUrl,
       }
     }
 
