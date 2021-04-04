@@ -1,29 +1,44 @@
 import AWS from "aws-sdk";
+import { DynamoDB } from "aws-sdk";
 
 async function setupTables() {
-    const dynamo = new AWS.DynamoDB({
-        endpoint: 'http://localhost:8000',
-        region: "ap-northeast-1",
+    AWS.config.update({
+      credentials:  new AWS.Credentials(
+        "local",
+        "dummy"
+      ),
+      region: 'ap-northeast-1',
+    })
+    const dynamo = new DynamoDB({
+      endpoint: 'http://localhost:8000',
     });
 
     const createTableInput = {
         TableName: "Test",
         AttributeDefinitions: [
           {
-            AttributeName: "Id",
+            AttributeName: "UUID",
+            AttributeType: "S",
+          },
+          {
+            AttributeName: "DataGroupKey",
             AttributeType: "S",
           },
         ],
         KeySchema: [
           {
-            AttributeName: "Id",
+            AttributeName: "UUID",
             KeyType: "HASH",
-          }
+          },
+          {
+            AttributeName: "DataGroupKey",
+            KeyType: "RANGE",
+          },
         ],
         ProvisionedThroughput: {
           ReadCapacityUnits: 5,
           WriteCapacityUnits: 5
-         },
+        },
     };
 
     try {

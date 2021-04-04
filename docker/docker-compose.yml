@@ -15,6 +15,8 @@ services:
     image: aaronshaf/dynamodb-admin:latest
     environment:
       - DYNAMO_ENDPOINT=dynamodb:8000
+      - AWS_REGION=ap-northeast-1
+      - AWS_ACCESS_KEY_ID=local
     ports:
       - "8001:8001"
     depends_on:

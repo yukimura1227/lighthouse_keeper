@@ -5,6 +5,20 @@ import * as chromeLauncher from 'chrome-launcher';
 import { protocol, domain } from '../lighthouse_target_list.json';
 import { target_list } from '../lighthouse_target_list.json';
 import { TargetListEntity } from 'lighthouse_target_list.json';
+import { v4 as uuidv4 } from 'uuid';
+import AWS from "aws-sdk";
+import { DynamoDB } from "aws-sdk";
+
+AWS.config.update({
+  credentials:  new AWS.Credentials(
+    "local",
+    "dummy"
+  ),
+  region: 'ap-northeast-1',
+})
+const dynamodbClient = new DynamoDB.DocumentClient({
+  endpoint: 'http://localhost:8000',
+});
 
 const launchChrome = async () => {
   return await chromeLauncher.launch({
@@ -60,6 +74,25 @@ const generateOutputFileName = async (targetInfo: TargetListEntity) => {
     // `.lhr` is the Lighthouse Result as a JS object
     console.log('Report is done for', runnerResult.lhr.finalUrl);
     console.log('Performance score was', runnerResult.lhr.categories.performance.score * 100);
+
+    let id =  String(Math.floor(Math.random() * Math.floor(100000000)));
+    let recordData = {
+      TableName: 'Test',
+      Item: {
+        "UUID": uuidv4(),
+        "DataGroupKey": outFileName,
+        "Date":  new Date().toISOString(),
+        "performanceScore": runnerResult.lhr.categories.performance.score * 100,
+      }
+    }
+
+    await dynamodbClient.put(recordData, async (err, data) => {
+      if (err) {
+        console.log("Error", err);
+      } else {
+        console.log("Success", data);
+      }
+    });
   }
 
   await chrome.kill();
