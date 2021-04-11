@@ -15,7 +15,8 @@ AWS.config.update({
     "dummy"
   ),
   region: 'ap-northeast-1',
-})
+});
+
 const dynamodbClient = new DynamoDB.DocumentClient({
   endpoint: 'http://localhost:8000',
 });
